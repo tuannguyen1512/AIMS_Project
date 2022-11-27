@@ -1,0 +1,11 @@
+1. After the call of swap(jungleDVD, cinderellaDVD) why does the title of 
+these two objects still remain?
+
+Vì trong java chỉ có truyền tham chiếu: 
+	2 tham số truyền vào chỉ bị thay đổi ở biến tham chiếu nên khi method ko làm thay đổi title của 2 objects
+
+2. After the call of changeTitle(jungleDVD, cinderellaDVD.getTitle()) 
+why is the title of the JungleDVD changed?	
+
+Vì thủ tục này đã thay đổi object được tham chiếu bởi các tham số, nên title của 2 objects 
+bị thay đổi, còn biến tham chiếu ko hề bị thay đổi
