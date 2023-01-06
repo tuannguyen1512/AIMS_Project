@@ -3,65 +3,33 @@ import java.util.ArrayList;
 
 import hust.soict.dsai.aims.media.DigitalVideoDisc;
 import hust.soict.dsai.aims.media.Media;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class Cart {
 	public static int MAX_NUMBERS_ORDERED = 10 ;
-	private ArrayList<Media> itemsOrdered = new ArrayList<Media>();
+	private ObservableList<Media> itemsOrdered = FXCollections.observableArrayList();
 	
 	private int nbLuckyItems = 0;
 	public int id;
-	public void addMedia(Media media){
-		if (itemsOrdered.size() == MAX_NUMBERS_ORDERED){
-			System.out.println("Your order is already full.");
-			return;
-		}
-		else{
-			media.setId(itemsOrdered.size() + 1);
-			itemsOrdered.add(media);
-			System.out.println("Order has been updated. Your order now has "+ itemsOrdered.size() + " items");
-		}
-	}
-	public void removeMedia(int id){
-		if (itemsOrdered.size() == 0){
-			System.out.println("Your order has no items to be removed.");
-			return;
-		}
-		int search = -1;
-		for (int i = 0; i < itemsOrdered.size(); i++) {
-            if (itemsOrdered.get(i).getId() == id)
-                search = i;
+	public boolean addMedia(Media media) {
+        if (itemsOrdered.contains(media)) {
+            System.out.println("The media is already exist");
+            return false;
         }
-        if (search == -1)
-            System.out.println("The media is not in the list.");
-        else{
-            itemsOrdered.remove(search);
-			for (int i = search; i < itemsOrdered.size(); i++) {
-				itemsOrdered.get(i).setId(i+1);
-			}
-            System.out.println("Media removed successfully!");
+        itemsOrdered.add(media);
+        return true;
+    }
+	public boolean removeMedia(Media media) {
+        if (itemsOrdered.contains(media)) {
+            itemsOrdered.remove(media);
+            return true;
         }
-	}
-
-	
-	public void removeMedia(Media media){
-		if (itemsOrdered.size() == 0){
-			System.out.println("Your order has no items to be removed.");
-			return;
-		}
-		int search = -1;
-		for (int i = 0; i < itemsOrdered.size(); i++) {
-            if (itemsOrdered.get(i).getTitle().equals(media.getTitle()))
-                search = i;
-        }
-        if (search == -1)
-            System.out.println("The media is not in the list.");
-        else{
-            itemsOrdered.remove(search);
-			for (int i = search; i < itemsOrdered.size(); i++) {
-				itemsOrdered.get(i).setId(i+1);
-			}
-            System.out.println("Media removed successfully!");
-        }
+        System.out.println("The media is not exist");
+        return false;
+    }
+	public ObservableList<Media> getOrder(){
+		return itemsOrdered;
 	}
 	
 	public float totalCost() {
@@ -89,10 +57,48 @@ public class Cart {
 		System.out.println("Total cost: " + this.totalCost());
 		System.out.println("***************************************************");
 	}
-	
+	 public int getQty() {
+	        return itemsOrdered.size();
+	    }
+
+	 public void sortCartByTitle() {
+	        itemsOrdered.sort(Media.COMPARE_BY_TITLE_COST);
+	    }
+
+	    public void sortCartByCost() {
+	        itemsOrdered.sort(Media.COMPARE_BY_COST_TITLE);
+	    }
+
+	 public void filterByTitle(String st) {
+	        for (Media media : itemsOrdered) {
+	            if (media.isMatch(st)) {
+	                System.out.println(media.toString());
+	            }
+	        }
+	    }
+
+	    public Media searchCart(String st) {
+	        for (Media media : itemsOrdered) {
+	            if (media.isMatch(st)) {
+	                return media;
+	            }
+	        }
+	        return null;
+	    }
+
+	    public void newCart() {
+	        // remove all items in itemsOrderd;
+	        itemsOrdered.clear();
+
+	    }
+
 	public Media getALuckyItem(){
 		int lucky = (int) (Math.random() * itemsOrdered.size());
 		return itemsOrdered.get(lucky);
+	}
+	
+	public void clearCart() {
+		itemsOrdered.clear();
 	}
 	
 }

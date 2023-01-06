@@ -1,14 +1,11 @@
 package hust.soict.dsai.aims.store;
-import java.util.Scanner;
 import java.util.ArrayList;
 
-import hust.soict.dsai.aims.media.DigitalVideoDisc;
 import hust.soict.dsai.aims.media.Media;
 
 public class Store {
     public static int MAX_NUMBERS_ITEMS = 200 ;
     private ArrayList<Media> itemsInStore = new ArrayList<Media>();
-    private int num_items = 0 ;
     public void addMedia(Media media){
 		if (itemsInStore.size() == MAX_NUMBERS_ITEMS){
 			System.out.println("Your order is already full.");
@@ -63,6 +60,22 @@ public class Store {
         }
         System.out.println("The disc has been subed");
 	}
-    
+	
+	public void printStore() {
+        System.out.println("Store");
+        for (Media media : itemsInStore) {
+            System.out.println(media.toString());
+        }
+    }
+
+    public Media searchStore(String st) {
+        for (Media media : itemsInStore) {
+            if (media.isMatch(st)) {
+                return media;
+            }
+        }
+        return null;
+    }
 }
+    
     

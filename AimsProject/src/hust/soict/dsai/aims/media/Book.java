@@ -48,4 +48,10 @@ public class Book extends Media {
             System.out.println("Author removed successfully!");
         }
     }
+
+	@Override
+	public void play() {
+		// TODO Auto-generated method stub
+		
+	}
 }
